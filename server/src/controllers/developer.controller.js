@@ -1,0 +1,4 @@
+import { getDeveloper, getDeveloperNetwork, listDevelopers } from '../services/developer.service.js';
+export async function listDevelopersController(req, res, next) { try { res.json({ success: true, data: await listDevelopers(req.query) }); } catch (error) { next(error); } }
+export async function getDeveloperController(req, res, next) { try { const data = await getDeveloper(req.params.id); if (!data) return res.status(404).json({ success: false, error: 'Developer not found' }); res.json({ success: true, data }); } catch (error) { next(error); } }
+export async function developerNetworkController(req, res, next) { try { const data = await getDeveloperNetwork(req.params.id); if (!data) return res.status(404).json({ success: false, error: 'Developer not found' }); res.json({ success: true, data }); } catch (error) { next(error); } }

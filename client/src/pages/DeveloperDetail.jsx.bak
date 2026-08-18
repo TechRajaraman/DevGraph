@@ -1,0 +1,11 @@
+import { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { api } from '../api/api.js';
+import { ErrorState, LoadingState } from '../components/Status.jsx';
+
+export default function DeveloperDetail() {
+  const { id } = useParams(); const [data,setData]=useState(null); const [error,setError]=useState('');
+  useEffect(()=>{api.developer(id).then(setData).catch(e=>setError(e.response?.data?.error||e.message));},[id]);
+  if(error) return <main className="page"><ErrorState message={error}/></main>; if(!data) return <main className="page"><LoadingState/> </main>;
+  return <main className="page"><Link className="back-link" to="/developers">← Developers</Link><section className="profile-hero"><div className="avatar large">{data.name.split(' ').map(x=>x[0]).join('').slice(0,2)}</div><div><p className="eyebrow">Developer profile</p><h1>{data.name}</h1><p className="profile-title">{data.title} · {data.experienceYears} years · {data.location}</p>{data.company&&<p className="muted">{data.company.name} · {data.company.industry}</p>}</div></section><div className="detail-grid"><section className="panel"><p className="eyebrow">Skills</p><h2>What {data.name.split(' ')[0]} knows</h2><div className="skill-list">{data.skills.map(s=><div className="skill-row" key={s.id}><span>{s.name}</span><b>{s.level}</b><small>{s.years} yrs</small></div>)}</div></section><section className="panel"><p className="eyebrow">Projects</p><h2>Work history</h2><div className="project-list">{data.projects.map(p=><div className="project-row" key={p.id}><strong>{p.name}</strong><span>{p.role} · {p.durationMonths} months</span><div className="chips">{p.technologies.map(t=><span key={t}>{t}</span>)}</div></div>)}</div></section></div></main>;
+}

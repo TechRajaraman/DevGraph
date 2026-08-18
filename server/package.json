@@ -1,0 +1,22 @@
+{
+  "name": "devgraph-server",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "seed": "node src/seed/seed.js",
+    "lint": "eslint .",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "neo4j-driver": "^6.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.33.0"
+  }
+}
