@@ -1,7 +1,6 @@
-import app from "./app.js";
-import { env } from "./config/env.js";
-import { driver, verifyDatabaseConnection } from "./db/driver.js";
-
+import app from './app.js';
+import { env } from './config/env.js';
+import { driver, verifyDatabaseConnection } from './db/driver.js';
 
 async function startServer() {
   try {
@@ -19,13 +18,17 @@ async function startServer() {
       });
     };
 
-    process.on("SIGINT", () => shutdown("SIGINT"));
-    process.on("SIGTERM", () => shutdown("SIGTERM"));
+    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
   } catch (error) {
-    console.error("Failed to start DevGraph API:", error);
+    console.error('Failed to start DevGraph API:', error);
     await driver.close();
     process.exit(1);
   }
 }
 
-startServer();
+if (!process.env.VERCEL && process.env.NODE_ENV !== 'production') {
+  startServer();
+}
+
+export default app;
