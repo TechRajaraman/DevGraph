@@ -45,3 +45,20 @@ test('Neo4j integer objects are converted to plain numbers', () => {
     nested: { count: 12 }
   });
 });
+
+test('Vercel serverless entry exports app without starting a TCP listener', async () => {
+  const previousEnv = { ...process.env };
+
+  process.env.VERCEL = '1';
+  process.env.NODE_ENV = 'production';
+  process.env.COGNODB_URI = 'bolt://localhost:7687';
+  process.env.COGNODB_USERNAME = 'neo4j';
+  process.env.COGNODB_PASSWORD = 'neo4j';
+
+  try {
+    const mod = await import('../src/index.js');
+    assert.equal(typeof mod.default, 'function');
+  } finally {
+    process.env = previousEnv;
+  }
+});

@@ -10,8 +10,39 @@ import healthRoutes from './routes/health.routes.js';
 import { errorMiddleware, notFoundMiddleware } from './middleware/error.middleware.js';
 
 const app = express();
+const allowedOrigins = new Set([
+  'http://localhost:5173',
+  'https://dev-graph-tau.vercel.app',
+  'https://www.dev-graph-tau.vercel.app'
+]);
+
 app.disable('x-powered-by');
-app.use(cors());
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.options(/.*/, cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (_req, res) => res.json({ success: true, service: 'devgraph-api', version: '1.0.0' }));
