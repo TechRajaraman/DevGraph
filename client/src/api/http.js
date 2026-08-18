@@ -8,5 +8,5 @@ const defaultApiBaseUrl =
 
 export const http = axios.create({
   baseURL: defaultApiBaseUrl,
-  timeout: 30000
+  timeout: 60000
 });
