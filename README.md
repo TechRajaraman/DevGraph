@@ -164,7 +164,3 @@ The server tests specifically assert parameterization and multi-hop query struct
 The frontend is Vercel-ready through `client/vercel.json`. The backend includes a Render blueprint in `render.yaml`. Add the CognoDB secrets in the hosting provider’s environment settings.
 
 The final submission still needs the actual hosted URL and screen recording requested by the assignment; those require deploying the project with your own CognoDB credentials.
-
-## AI-assisted development
-
-AI tools may be used for coding assistance, but the candidate must be able to explain and defend every part of the submission. This repository keeps the graph model, queries, service boundaries and interview defense notes explicit so the implementation can be walked through line by line.
